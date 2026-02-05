@@ -54,7 +54,7 @@ public class SubjectController {
             @RequestBody Subject subject) {
 
         return ResponseEntity.ok(
-                subjectService.updateSubject(subjectId, subject)
+                subjectService.updateSubject(subjectId, subjecto)
         );
     }
 

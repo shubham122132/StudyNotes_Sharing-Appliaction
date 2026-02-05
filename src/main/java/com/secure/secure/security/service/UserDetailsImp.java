@@ -1,7 +1,7 @@
 package com.secure.secure.security.service;
 
 import com.secure.secure.model.User;
-import org.jspecify.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 public class UserDetailsImp implements UserDetails {
 
     private Long id;
-    private String username;
+    private String fullName;
     private String password;
     private String email;
 
@@ -27,37 +27,39 @@ public class UserDetailsImp implements UserDetails {
                 .collect(Collectors.toList());
 
         return new UserDetailsImp(
-               user.getId(),
-                user.getUsername(),
+                user.getId(),
+                user.getFullName(),
                 user.getEmail(),
                 user.getPassword(),
                 authorities
         );
     }
 
-    public UserDetailsImp(Long id, String username, String email, String password,
+    public UserDetailsImp(Long id, String fullName, String email, String password,
                           Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
-        this.username = username;
+        this.fullName = fullName;
         this.email = email;
         this.password = password;
         this.authorities = authorities;
     }
 
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return authorities;
     }
 
-    @Override
-    public @Nullable String getPassword() {
-        return password;
-    }
+        @Override
+        public String getPassword() {
+            return password;
+        }
 
-    @Override
-    public String getUsername() {
-        return username;
-    }
+        @Override
+        @NonNull
+        public String getUsername() {
+            return email;
+        }
 
     @Override
     public boolean isAccountNonExpired() {
